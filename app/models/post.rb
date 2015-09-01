@@ -1,9 +1,7 @@
 class Post < ActiveRecord::Base
-  scope :draft,     ->{ where(published_at: nil) }
-  scope :published, ->{ where.not(published_at: nil).where("published_at <= ?", Time.zone.now) }
-  scope :scheduled, ->{ where.not(published_at: nil).where("published_at > ?", Time.zone.now)}
-
-  attr_accessor :status
+  scope :draft,     ->{ where(status: "Draft") }
+  scope :published, ->{ where(status: "Published") }
+  scope :scheduled, ->{ where(status: "Scheduled") }
 
   before_validation :clean_up_status
 
